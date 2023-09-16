@@ -25,7 +25,7 @@ export default function Contact() {
         />
       </div>
       <div className="flex flex-col gap-2 absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%]">
-        <h1 className="text-3xl font-bold text-center">Contacts</h1>
+        <h1 className="text-3xl font-bold text-center underline">Contacts</h1>
         <Card className="flex flex-col w-64 p-4 gap-4 border-none">
           <Button>
             <Link href="mailto:smroz@depaul.edu" target="_blank">

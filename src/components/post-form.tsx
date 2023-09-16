@@ -7,7 +7,10 @@ import { SubmitButton } from "./submit-button";
 
 export function PostForm() {
   return (
-    <form className="flex flex-col gap-4 w-96" action={createPostAction}>
+    <form
+      className="flex flex-col gap-4 w-5/6 md:w-1/2"
+      action={createPostAction}
+    >
       <div className="flex flex-col gap-2">
         <Label htmlFor="title">Title</Label>
         <Input required type="text" name="title" id="title" />
@@ -18,7 +21,7 @@ export function PostForm() {
         <Textarea required name="content" id="content" />
       </div>
       <Separator />
-      <SubmitButton />
+      <SubmitButton value="Post" loadingValue="Posting..." />
     </form>
   );
 }

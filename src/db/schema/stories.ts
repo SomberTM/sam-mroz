@@ -14,6 +14,8 @@ export const stories = pgTable("stories", {
   modifiedAt: timestamp("modified_at").defaultNow().notNull(),
 });
 
+export type Story = typeof stories.$inferSelect;
+
 export const storiesRelations = relations(stories, ({ one }) => ({
   author: one(users, { fields: [stories.authorId], references: [users.id] }),
 }));
