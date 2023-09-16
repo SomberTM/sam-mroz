@@ -19,8 +19,6 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { Session } from "next-auth";
-import { Role } from "@/db/schema";
 
 interface Route {
   title: string;
@@ -79,6 +77,12 @@ const routes: (Route | RouteGroup)[] = [
         roles: ["CREATOR", "ADMIN"],
         description: "Create a new review",
       },
+      {
+        title: "Create Post",
+        href: "/posts/new",
+        roles: ["CREATOR", "ADMIN"],
+        description: "Create a new post",
+      },
     ],
   },
   {
@@ -128,7 +132,7 @@ const ListItem = React.forwardRef<
 });
 ListItem.displayName = "ListItem";
 
-export async function NavMenu({ role }: { role?: Role }) {
+export async function NavMenu({ role }: { role?: string }) {
   return (
     <NavigationMenu>
       <NavigationMenuList>

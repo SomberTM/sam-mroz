@@ -7,11 +7,13 @@ import {
   pgEnum,
 } from "drizzle-orm/pg-core";
 import type { AdapterAccount } from "@auth/core/adapters";
+import { relations } from "drizzle-orm";
+import { posts, stories } from ".";
 
 const roles = ["USER", "CREATOR", "ADMIN"] as const;
 export const roleEnum = pgEnum("role", roles);
 
-export type Role = (typeof users.$inferSelect)["role"];
+export type Role = (typeof roles)[number];
 
 export const users = pgTable("user", {
   id: text("id").notNull().primaryKey(),
@@ -21,6 +23,11 @@ export const users = pgTable("user", {
   emailVerified: timestamp("emailVerified", { mode: "date" }),
   image: text("image"),
 });
+
+export const usersRelations = relations(users, ({ many }) => ({
+  stories: many(stories),
+  posts: many(posts),
+}));
 
 export type User = typeof users.$inferSelect;
 

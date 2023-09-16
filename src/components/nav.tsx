@@ -13,14 +13,7 @@ export async function Nav() {
       <NavMenu role={user?.role} />
       <div className="flex gap-4">
         {!!user && <LogoutButton />}
-        {!user && (
-          <LoginButton
-            providers={[
-              { provider: "discord", title: "Discord" },
-              { provider: "github", title: "GitHub" },
-            ]}
-          />
-        )}
+        {!user && <LoginButton />}
         <ThemeToggle />
       </div>
     </div>
