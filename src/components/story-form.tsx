@@ -9,6 +9,8 @@ import { createStoryAction } from "@/db/actions/stories";
 import { useToast } from "./ui/use-toast";
 import { useRef } from "react";
 import { ToastAction } from "./ui/toast";
+import { Toaster } from "./ui/toaster";
+import Link from "next/link";
 
 export function StoryForm() {
   const { toast } = useToast();
@@ -19,7 +21,13 @@ export function StoryForm() {
     if (result.success) {
       toast({
         title: "New story!",
-        description: `Created a new story title "${result.data.title}"`,
+        description: `Created a new story titled "${result.data.title}"`,
+        action: (
+          <ToastAction altText="Go to newly created story">
+            <Link href={`/stories/${result.data.title}`}>Go to story</Link>
+          </ToastAction>
+        ),
+        duration: 5000,
       });
       formRef.current?.reset();
     } else {
@@ -34,6 +42,7 @@ export function StoryForm() {
             Clear form
           </ToastAction>
         ),
+        duration: 5000,
       });
     }
   }
@@ -44,9 +53,16 @@ export function StoryForm() {
       ref={formRef}
       action={onSubmit}
     >
+      <Toaster />
       <div className="flex flex-col gap-2">
         <Label htmlFor="title">Title</Label>
-        <Input required type="text" name="title" id="title" />
+        <Input
+          required
+          placeholder='"Barbenheimer:" A pop culture boom big enough to reach the classroom'
+          type="text"
+          name="title"
+          id="title"
+        />
       </div>
       <Separator />
       <div className="flex flex-col gap-2">
@@ -61,12 +77,25 @@ export function StoryForm() {
       <Separator />
       <div className="flex flex-col gap-2">
         <Label htmlFor="imageUrl">Image URL</Label>
-        <Input name="imageUrl" id="imageUrl" />
+        <Input
+          placeholder="https://depauliaonline.com/wp-content/uploads/2023/09/Barbenheimer-1200x1000.jpg"
+          name="imageUrl"
+          id="imageUrl"
+        />
       </div>
       <Separator />
       <div className="flex flex-col gap-2">
-        <Label htmlFor="externalLink">External Link</Label>
-        <Input name="externalLink" id="externalLink" />
+        <Label htmlFor="source">Source Link</Label>
+        <Input
+          placeholder="https://depauliaonline.com/65252/artslife/barbenheimer-a-pop-culture-boom-big-enough-to-reach-the-classroom/#photo"
+          name="source"
+          id="source"
+        />
+      </div>
+      <Separator />
+      <div className="flex flex-col gap-2">
+        <Label htmlFor="sourceTitle">Source Title</Label>
+        <Input placeholder="The DePaulia" name="sourceTitle" id="sourceTitle" />
       </div>
       <Separator />
       <SubmitButton value="Submit" loadingValue="Submitting..." />

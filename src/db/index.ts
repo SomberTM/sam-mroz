@@ -6,5 +6,5 @@ const client = new Client({
   connectionString: process.env.POSTGRES_URL,
 });
 
-await client.connect();
+client.connect();
 export default drizzle(client, { schema });

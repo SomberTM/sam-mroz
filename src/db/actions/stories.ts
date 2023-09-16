@@ -14,7 +14,8 @@ export async function createStoryAction(
   const title = formData.get("title")?.toString();
   const body = formData.get("body")?.toString();
   const imageUrl = formData.get("imageUrl")?.toString();
-  const externalLink = formData.get("externalLink")?.toString();
+  const source = formData.get("source")?.toString();
+  const sourceTitle = formData.get("sourceTitle")?.toString();
   const synopsis = formData.get("synopsis")?.toString();
 
   if (!title) return { success: false, message: `Missing story title` };
@@ -31,7 +32,8 @@ export async function createStoryAction(
         body,
         synopsis,
         imageUrl,
-        externalLink,
+        source,
+        sourceTitle,
         authorId: user.id,
       })
       .returning();

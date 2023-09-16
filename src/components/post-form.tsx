@@ -1,3 +1,5 @@
+"use client";
+
 import { createPostAction } from "@/db/actions/posts";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
@@ -6,11 +8,12 @@ import { Textarea } from "./ui/textarea";
 import { SubmitButton } from "./submit-button";
 
 export function PostForm() {
+  async function onSubmit(formData: FormData) {
+    await createPostAction(formData);
+  }
+
   return (
-    <form
-      className="flex flex-col gap-4 w-5/6 md:w-1/2"
-      action={createPostAction}
-    >
+    <form className="flex flex-col gap-4 w-5/6 md:w-1/2" action={onSubmit}>
       <div className="flex flex-col gap-2">
         <Label htmlFor="title">Title</Label>
         <Input required type="text" name="title" id="title" />
