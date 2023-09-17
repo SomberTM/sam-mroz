@@ -9,7 +9,7 @@ export default async function Login() {
 
   return (
     <div className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] flex flex-col gap-2">
-      <LoginButton providers={[{ provider: "discord", title: "Discord" }]} />
+      <LoginButton />
     </div>
   );
 }
