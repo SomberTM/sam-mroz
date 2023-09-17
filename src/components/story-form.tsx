@@ -11,6 +11,7 @@ import { useRef } from "react";
 import { ToastAction } from "./ui/toast";
 import { Toaster } from "./ui/toaster";
 import Link from "next/link";
+import { AttachImage } from "./attach-file";
 
 export function StoryForm() {
   const { toast } = useToast();
@@ -96,6 +97,11 @@ export function StoryForm() {
       <div className="flex flex-col gap-2">
         <Label htmlFor="sourceTitle">Source Title</Label>
         <Input placeholder="The DePaulia" name="sourceTitle" id="sourceTitle" />
+      </div>
+      <Separator />
+      <div className="flex flex-col gap-2">
+        <Label htmlFor="storyImage">Story Image</Label>
+        <AttachImage name="image" id="storyImage" />
       </div>
       <Separator />
       <SubmitButton value="Submit" loadingValue="Submitting..." />
