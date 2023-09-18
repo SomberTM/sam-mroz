@@ -1,4 +1,4 @@
-import { Montserrat } from "@/components/monsterrat";
+import { Cinzel } from "@/components/cinzel";
 import db from "@/db";
 import { Story, User, stories, users } from "@/db/schema";
 import { desc, eq } from "drizzle-orm";
@@ -13,7 +13,7 @@ function Story({ story, author }: { story: Story; author: User }) {
       )}
       <div className="flex flex-col justify-center gap-4">
         {story.source && story.sourceTitle && (
-          <Montserrat>
+          <Cinzel>
             <Link
               className="text-primary text-xl font-bold underline"
               href={story.source}
@@ -21,7 +21,7 @@ function Story({ story, author }: { story: Story; author: User }) {
             >
               {story.sourceTitle}
             </Link>
-          </Montserrat>
+          </Cinzel>
         )}
         <h1 className="text-3xl font-bold">{story.title}</h1>
         <p className="text-xl">{story.synopsis}</p>

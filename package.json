@@ -10,6 +10,7 @@
     "generate": "drizzle-kit generate:pg",
     "migrate": "ts-node-esm src/db/migrate.ts",
     "push": "drizzle-kit push:pg",
+    "prod-studio": "POSTGRES_URL='postgres://default:8wsELoAX4vIj@ep-calm-grass-68529627.us-east-1.postgres.vercel-storage.com:5432/verceldb?sslmode=require' drizzle-kit studio",
     "studio": "drizzle-kit studio"
   },
   "dependencies": {
