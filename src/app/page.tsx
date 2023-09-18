@@ -63,7 +63,7 @@ export default function Home() {
           Social Feed
         </h1>
         <ScrollArea className="flex justify-center h-[32rem]">
-          <PostsList />
+          <PostsList page={1} />
         </ScrollArea>
       </div>
     </div>

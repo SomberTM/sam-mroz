@@ -1,18 +1,12 @@
-import db from "@/db";
-import { posts, users } from "@/db/schema";
-import { desc, eq } from "drizzle-orm";
 import { Post } from "./post";
+import { getPagedPosts } from "@/db/actions/posts";
 
-export async function PostsList() {
-  const items = await db
-    .select()
-    .from(posts)
-    .leftJoin(users, eq(posts.authorId, users.id))
-    .orderBy(desc(posts.createdAt));
+export async function PostsList({ page }: { page?: number }) {
+  const { results } = await getPagedPosts((page ?? 1) - 1);
 
   return (
     <ul className="flex flex-col justify-center gap-2 w-full">
-      {items.map(({ user: author, posts: post }) => (
+      {results.map(({ user: author, posts: post }) => (
         <Post key={post.id} post={post} author={author!} />
       ))}
     </ul>
