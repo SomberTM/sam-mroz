@@ -3,7 +3,15 @@
 import { getCurrentUser } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
 import db from "..";
-import { Post, User, posts, users } from "../schema";
+import {
+  AuthorProfile,
+  Post,
+  User,
+  UserWithProfile,
+  authorProfiles,
+  posts,
+  users,
+} from "../schema";
 import { desc, eq } from "drizzle-orm";
 import { FormActionResponse } from ".";
 
@@ -56,7 +64,9 @@ interface PagedResult<T> {
  */
 export async function getPagedPosts(
   page: number,
-): Promise<PagedResult<{ posts: Post; user: User | null }>> {
+): Promise<
+  PagedResult<{ post: Post; user: User | null; profile: AuthorProfile | null }>
+> {
   const results = await db
     .select()
     .from(posts)
@@ -64,7 +74,8 @@ export async function getPagedPosts(
     .offset(POSTS_PAGE_SIZE * (page - 1))
     // take page size + 1 as hack to check for next page
     .limit(POSTS_PAGE_SIZE + 1)
-    .leftJoin(users, eq(posts.authorId, users.id));
+    .leftJoin(users, eq(posts.authorId, users.id))
+    .leftJoin(authorProfiles, eq(users.id, authorProfiles.userId));
 
   return {
     results: results.slice(0, POSTS_PAGE_SIZE),

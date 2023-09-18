@@ -26,9 +26,9 @@ export default async function Posts({ params }: { params: { page: string } }) {
       {results.length > 0 && (
         <Card className="w-96 md:w-1/2 p-4 flex flex-col gap-4">
           <ul className="space-y-2">
-            {results.map(({ posts: post, user: author }) => (
+            {results.map(({ post, user: author, profile }) => (
               <li key={post.id}>
-                <Post post={post} author={author!} />
+                <Post post={post} author={author!} profile={profile} />
               </li>
             ))}
           </ul>

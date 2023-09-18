@@ -17,6 +17,7 @@ import {
   User2Icon,
   type LucideIcon,
   NewspaperIcon,
+  PencilIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -107,6 +108,13 @@ const routes: (Route | RouteGroup)[] = [
         href: "/contact",
         description: "All my contact information and socials",
         icon: PhoneIcon,
+      },
+      {
+        title: "Edit Profile",
+        href: "/profile",
+        description: "Edit your author profile",
+        roles: ["CONTENT", "ADMIN"],
+        icon: PencilIcon,
       },
     ],
   },

@@ -5,6 +5,7 @@ import {
   primaryKey,
   integer,
   pgEnum,
+  uuid,
 } from "drizzle-orm/pg-core";
 import type { AdapterAccount } from "@auth/core/adapters";
 import { relations } from "drizzle-orm";
@@ -24,12 +25,27 @@ export const users = pgTable("user", {
   image: text("image"),
 });
 
-export const usersRelations = relations(users, ({ many }) => ({
+export const usersRelations = relations(users, ({ many, one }) => ({
   stories: many(stories),
   posts: many(posts),
+  authorProfile: one(authorProfiles, {
+    fields: [users.id],
+    references: [authorProfiles.userId],
+  }),
 }));
 
 export type User = typeof users.$inferSelect;
+
+export const authorProfiles = pgTable("profile", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  userId: text("user_id")
+    .notNull()
+    .references(() => users.id),
+  name: text("name").notNull(),
+});
+
+export type AuthorProfile = typeof authorProfiles.$inferSelect;
+export type UserWithProfile = User & { profile?: AuthorProfile };
 
 export const accounts = pgTable(
   "account",
@@ -50,7 +66,7 @@ export const accounts = pgTable(
   },
   (account) => ({
     compoundKey: primaryKey(account.provider, account.providerAccountId),
-  })
+  }),
 );
 
 export type Account = typeof accounts.$inferSelect;
@@ -74,7 +90,7 @@ export const verificationTokens = pgTable(
   },
   (vt) => ({
     compoundKey: primaryKey(vt.identifier, vt.token),
-  })
+  }),
 );
 
 export type VerificationToken = typeof verificationTokens.$inferSelect;

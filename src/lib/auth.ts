@@ -7,7 +7,7 @@ import {
 } from "next-auth";
 import DiscordProvider from "next-auth/providers/discord";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
-import { Role, users } from "@/db/schema/auth";
+import { AuthorProfile, Role, authorProfiles, users } from "@/db/schema/auth";
 import { eq } from "drizzle-orm";
 
 declare module "next-auth" {
@@ -15,17 +15,13 @@ declare module "next-auth" {
     user: {
       id: string;
       role: Role;
+      profile: AuthorProfile | null;
     } & DefaultSession["user"];
   }
 
   interface User extends DefaultUser {
     role: Role;
-  }
-}
-
-declare module "@auth/drizzle-adapter" {
-  interface AdapterUser {
-    role: Role;
+    profile: AuthorProfile | null;
   }
 }
 
@@ -47,12 +43,15 @@ export const authOptions: AuthOptions = {
       if (session.user) {
         // hacky work around since _user doesnt seem to contain
         // any columns that are extended from the base users schema
-        const [user] = await db
+        const [{ user, profile }] = await db
           .select()
           .from(users)
-          .where(eq(users.id, _user.id));
+          .where(eq(users.id, _user.id))
+          .leftJoin(authorProfiles, eq(authorProfiles.userId, users.id));
+
         session.user.role = user.role;
         session.user.id = user.id;
+        session.user.profile = profile;
       }
       return session;
     },

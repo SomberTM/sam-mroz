@@ -6,8 +6,8 @@ export async function PostsList({ page }: { page?: number }) {
 
   return (
     <ul className="flex flex-col justify-center gap-2 w-full">
-      {results.map(({ user: author, posts: post }) => (
-        <Post key={post.id} post={post} author={author!} />
+      {results.map(({ user: author, post, profile }) => (
+        <Post key={post.id} post={post} author={author!} profile={profile} />
       ))}
     </ul>
   );

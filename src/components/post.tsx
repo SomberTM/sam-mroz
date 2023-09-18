@@ -1,9 +1,10 @@
-import { Post, User } from "@/db/schema";
+import { AuthorProfile, Post, User } from "@/db/schema";
 import { Card } from "./ui/card";
 import { cn } from "@/lib/utils";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { Session } from "next-auth";
 
 dayjs.extend(relativeTime);
 dayjs.extend(utc);
@@ -11,10 +12,12 @@ dayjs.extend(utc);
 export function Post({
   post,
   author,
+  profile,
   className,
 }: {
   post: Post;
   author: User;
+  profile: AuthorProfile | null;
   className?: string;
 }) {
   const relative = dayjs().to(
@@ -26,7 +29,9 @@ export function Post({
       <h1>
         <span className="font-bold">{post.title}</span>{" "}
         <span className="text-muted-foreground">・</span>{" "}
-        <span className="text-muted-foreground">{author.name}</span>
+        <span className="text-muted-foreground">
+          {profile?.name ?? author.name}
+        </span>
       </h1>
       <p>{post.content}</p>
       <span className="text-muted-foreground text-sm">{relative}</span>
