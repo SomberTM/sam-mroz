@@ -5,23 +5,42 @@ import { revalidatePath } from "next/cache";
 import db from "..";
 import { Post, User, posts, users } from "../schema";
 import { desc, eq } from "drizzle-orm";
+import { FormActionResponse } from ".";
 
-export async function createPostAction(formData: FormData) {
+export async function createPostAction(
+  formData: FormData,
+): Promise<FormActionResponse<Post>> {
   const title = formData.get("title")?.toString();
   const content = formData.get("content")?.toString();
 
-  if (!title || !content) return { status: 400 };
+  if (!title || !content)
+    return { success: false, message: "Missing title or content fields" };
 
   const user = await getCurrentUser();
-  if (!user) return { status: 400 };
+  if (!user)
+    return {
+      success: false,
+      message: "You must be logged in to create a post",
+    };
 
-  await db.insert(posts).values({
-    title,
-    content,
-    authorId: user.id,
-  });
+  try {
+    const post = await db
+      .insert(posts)
+      .values({
+        title,
+        content,
+        authorId: user.id,
+      })
+      .returning();
 
-  revalidatePath("/");
+    revalidatePath("/");
+    return { success: true, data: post[0] };
+  } catch (error) {
+    return {
+      success: false,
+      message: (error as Error).message,
+    };
+  }
 }
 
 const POSTS_PAGE_SIZE = 10;
