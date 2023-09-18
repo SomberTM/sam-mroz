@@ -51,7 +51,7 @@ interface PagedResult<T> {
 }
 
 /**
- * Get paged posts with 0 based page number
+ * Get paged posts with 1 based page number
  * @param page
  */
 export async function getPagedPosts(
@@ -61,7 +61,7 @@ export async function getPagedPosts(
     .select()
     .from(posts)
     .orderBy(desc(posts.createdAt))
-    .offset(POSTS_PAGE_SIZE * page)
+    .offset(POSTS_PAGE_SIZE * (page - 1))
     // take page size + 1 as hack to check for next page
     .limit(POSTS_PAGE_SIZE + 1)
     .leftJoin(users, eq(posts.authorId, users.id));

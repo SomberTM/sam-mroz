@@ -16,7 +16,7 @@ export default async function Posts({ params }: { params: { page: string } }) {
   const page = Number(params.page);
   if (!page || Number.isNaN(page) || page <= 0) return redirect("/");
 
-  const { results, hasNextPage } = await getPagedPosts(page - 1);
+  const { results, hasNextPage } = await getPagedPosts(page);
 
   return (
     <Centered className="p-8">
