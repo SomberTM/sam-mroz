@@ -6,8 +6,8 @@ export default function About() {
   return (
     <div className="flex justify-between gap-16 px-64 py-32">
       <Image
-        width={600}
-        height={800}
+        width={400}
+        height={600}
         src="/sam_serious.png"
         className="rounded-xl border-border border-2"
         alt=""

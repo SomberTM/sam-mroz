@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { Button } from "./ui/button";
 
 interface Route {
   title: string;
@@ -139,9 +140,15 @@ const ListItem = React.forwardRef<
 });
 ListItem.displayName = "ListItem";
 
-export async function NavMenu({ role }: { role?: string }) {
+export async function NavMenu({
+  role,
+  className,
+}: {
+  role?: string;
+  className?: string;
+}) {
   return (
-    <NavigationMenu>
+    <NavigationMenu className={cn("hidden md:block", className)}>
       <NavigationMenuList>
         {routes.map((routeOrGroup) => {
           if (isRouteGroup(routeOrGroup)) {
@@ -182,5 +189,64 @@ export async function NavMenu({ role }: { role?: string }) {
         })}
       </NavigationMenuList>
     </NavigationMenu>
+  );
+}
+
+export function NavList({
+  role,
+  className,
+}: {
+  role?: string;
+  className?: string;
+}) {
+  return (
+    <ul className={cn("flex flex-col gap-2", className)}>
+      {routes.map((routeOrGroup) => {
+        if (isRouteGroup(routeOrGroup)) {
+          return (
+            <li key={routeOrGroup.title} className="flex flex-col gap-2">
+              <span className="ml-4">{routeOrGroup.title}</span>
+              <ul className="flex flex-col gap-1 pl-4">
+                {routeOrGroup.routes
+                  .filter((route) => isAuthorizedForRoute(route, role))
+                  .map((route) => {
+                    const Icon = route.icon;
+                    return (
+                      <li key={route.title}>
+                        <Link href={route.href}>
+                          <Button variant="link" className="flex gap-2">
+                            {route.title}
+                            {!!Icon && (
+                              <span className="text-muted-foreground">
+                                <Icon size="18" />
+                              </span>
+                            )}
+                          </Button>
+                        </Link>
+                      </li>
+                    );
+                  })}
+              </ul>
+            </li>
+          );
+        } else if (isAuthorizedForRoute(routeOrGroup, role)) {
+          const Icon = routeOrGroup.icon;
+          return (
+            <li key={routeOrGroup.title}>
+              <Link href={routeOrGroup.href}>
+                <Button variant="link" className="flex gap-2">
+                  {routeOrGroup.title}
+                  {!!Icon && (
+                    <span className="text-muted-foreground">
+                      <Icon size="18" />
+                    </span>
+                  )}
+                </Button>
+              </Link>
+            </li>
+          );
+        }
+      })}
+    </ul>
   );
 }

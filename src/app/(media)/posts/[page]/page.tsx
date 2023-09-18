@@ -3,8 +3,14 @@ import { Post } from "@/components/post";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { getPagedPosts } from "@/db/actions/posts";
+import { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+
+export const metadata: Metadata = {
+  title: "Posts | Sam Mroz",
+  description: "Shorter form content and updates",
+};
 
 export default async function Posts({ params }: { params: { page: string } }) {
   const page = Number(params.page);
