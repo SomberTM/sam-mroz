@@ -9,8 +9,6 @@ import { FormActionResponse } from ".";
 export async function createStoryAction(
   formData: FormData,
 ): Promise<FormActionResponse<Story>> {
-  console.log(formData);
-
   const title = formData.get("title")?.toString();
   const body = formData.get("body")?.toString();
   const imageUrl = formData.get("imageUrl")?.toString();

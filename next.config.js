@@ -9,6 +9,12 @@ const nextConfig = {
         protocol: "https",
         hostname: "depauliaonline.com",
       },
+      {
+        protocol: "https",
+        port: "",
+        hostname: "s3.amazonaws.com",
+        pathname: "/sam-mroz/**",
+      },
     ],
   },
 };

@@ -1,3 +1,5 @@
+import db from "@/db";
+import { images } from "@/db/schema";
 import {
   PutObjectCommand,
   PutObjectCommandInput,
@@ -6,7 +8,7 @@ import {
 
 export interface UploadFileResultSuccess {
   success: true;
-  location: string;
+  url: string;
   key: string;
 }
 
@@ -19,6 +21,12 @@ export type UploadFileResult =
   | UploadFileResultSuccess
   | UploadFileResultFailure;
 
+export interface ImageMeta {
+  width: number;
+  height: number;
+  alt: string;
+}
+
 const region = "us-east-2";
 
 const client = new S3Client({
@@ -29,7 +37,10 @@ const client = new S3Client({
   region,
 });
 
-export async function uploadFile(file: File): Promise<UploadFileResult> {
+export async function uploadImage(
+  file: File,
+  meta: ImageMeta,
+): Promise<UploadFileResult> {
   const buffer = Buffer.from(await file.arrayBuffer());
 
   const params: PutObjectCommandInput = {
@@ -37,13 +48,25 @@ export async function uploadFile(file: File): Promise<UploadFileResult> {
     Key: file.name,
     Body: buffer,
     ContentType: file.type,
+    ACL: "public-read-write",
   };
 
   try {
     await client.send(new PutObjectCommand(params));
+
+    const objectUrl = `https://${params.Bucket}.s3.amazonaws.com/${params.Key}`;
+    await db.insert(images).values({
+      bucket: params.Bucket!,
+      fileName: file.name,
+      url: objectUrl,
+      width: meta.width,
+      height: meta.height,
+      alt: meta.alt,
+    });
+
     return {
       success: true,
-      location: `https://${params.Bucket}.s3.${region}.amazonaws.com/${params.Key}`,
+      url: objectUrl,
       key: params.Key!,
     };
   } catch (error) {

@@ -16,6 +16,7 @@ import {
   PhoneIcon,
   User2Icon,
   type LucideIcon,
+  NewspaperIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -78,6 +79,12 @@ const routes: (Route | RouteGroup)[] = [
         description: "Create a new review",
       },
       {
+        title: "Posts",
+        href: "/posts/1",
+        description: "Shorter form content and updates",
+        icon: NewspaperIcon,
+      },
+      {
         title: "Create Post",
         href: "/posts/new",
         roles: ["CREATOR", "ADMIN"],
@@ -115,7 +122,7 @@ const ListItem = React.forwardRef<
           ref={ref}
           className={cn(
             "block select-none rounded-md space-y-1 p-4 h-20 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-            className
+            className,
           )}
           {...props}
         >

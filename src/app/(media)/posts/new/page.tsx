@@ -1,9 +1,10 @@
+import { Centered } from "@/components/centered";
 import { PostForm } from "@/components/post-form";
 
 export default function CreatePost() {
   return (
-    <div className="w-full flex justify-center self-center my-auto">
+    <Centered>
       <PostForm />
-    </div>
+    </Centered>
   );
 }
