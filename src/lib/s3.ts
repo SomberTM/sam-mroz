@@ -5,8 +5,8 @@ import {
   PutObjectCommandInput,
   S3Client,
 } from "@aws-sdk/client-s3";
-import sharp from "sharp";
-import uuid from "uuid";
+import sharp, { Sharp } from "sharp";
+import * as uuid from "uuid";
 
 export interface UploadFileResultSuccess<T> {
   success: true;
@@ -27,20 +27,13 @@ export interface ImageDimensions {
   height: number;
 }
 
-export interface ImageMeta {
-  width: number;
-  height: number;
-  alt: string;
-}
-
 export interface ImageResizerResult {
-  data: Buffer;
-  mime: string;
+  data: Sharp;
   dimensions: ImageDimensions;
 }
 
 export interface ImageResizer {
-  resize(buffer: Buffer): Promise<ImageResizerResult>;
+  resize(buffer: Buffer | ArrayBuffer): ImageResizerResult;
 }
 
 const region = "us-east-2";
@@ -54,11 +47,10 @@ const client = new S3Client({
 });
 
 export const storyImageResizer: ImageResizer = {
-  async resize(buffer: Buffer) {
-    const data = await sharp(buffer).resize(1200, 1000).webp().toBuffer();
+  resize(buffer: Buffer | ArrayBuffer) {
+    const data = sharp(buffer).resize(1200, 1000);
     return {
       data,
-      mime: "image/webp",
       dimensions: {
         width: 1200,
         height: 1000,
@@ -72,16 +64,16 @@ export async function uploadImage(
   alt: string,
   resizer: ImageResizer,
 ): Promise<UploadFileResult<Image>> {
-  const buffer = Buffer.from(await file.arrayBuffer());
-
-  const resized = await resizer.resize(buffer);
+  const resized = resizer.resize(await file.arrayBuffer());
+  const webp = await resized.data.webp().toBuffer();
 
   const key = uuid.v4();
   const params: PutObjectCommandInput = {
     Bucket: process.env.AWS_BUCKET_NAME!,
-    Key: key,
-    Body: resized.data,
-    ContentType: resized.mime,
+    Key: `${key}.webp`,
+    Body: webp,
+    ContentType: "image/webp",
+    ACL: "public-read-write",
   };
 
   try {
@@ -92,7 +84,7 @@ export async function uploadImage(
       .insert(images)
       .values({
         bucket: params.Bucket!,
-        fileName: key,
+        fileName: params.Key!,
         url: objectUrl,
         width: resized.dimensions.width,
         height: resized.dimensions.height,

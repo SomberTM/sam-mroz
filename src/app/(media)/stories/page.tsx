@@ -27,12 +27,7 @@ function Story({
         <Image width={900} height={700} src={story.imageUrl} alt="" />
       )}
       {image && (
-        <Image
-          width={image.width}
-          height={image.height}
-          alt={image.alt}
-          src={image.url}
-        />
+        <Image width={900} height={700} alt={image.alt} src={image.url} />
       )}
       <div className="flex flex-col justify-center gap-4">
         {story.source && story.sourceTitle && (
