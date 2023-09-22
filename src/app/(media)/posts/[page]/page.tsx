@@ -1,5 +1,6 @@
 import { Centered } from "@/components/centered";
 import { Post } from "@/components/post";
+import { PostsList } from "@/components/posts-list";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { getPagedPosts } from "@/db/actions/posts";
@@ -25,13 +26,7 @@ export default async function Posts({ params }: { params: { page: string } }) {
       )}
       {results.length > 0 && (
         <Card className="w-96 md:w-1/2 p-4 flex flex-col gap-4">
-          <ul className="space-y-2">
-            {results.map(({ post, user: author, profile }) => (
-              <li key={post.id}>
-                <Post post={post} author={author!} profile={profile} />
-              </li>
-            ))}
-          </ul>
+          <PostsList page={page} />
           <div className="flex justify-between">
             <Button variant="link" disabled={page === 1}>
               <Link href={`/posts/${page - 1}`}>Previous</Link>

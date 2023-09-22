@@ -7,13 +7,17 @@ import {
   AuthorProfile,
   Post,
   User,
-  UserWithProfile,
   authorProfiles,
   posts,
   users,
 } from "../schema";
 import { desc, eq } from "drizzle-orm";
 import { FormActionResponse } from ".";
+
+function revalidatePostsRoutes() {
+  revalidatePath("/");
+  revalidatePath("/posts");
+}
 
 export async function createPostAction(
   formData: FormData,
@@ -32,7 +36,7 @@ export async function createPostAction(
     };
 
   try {
-    const post = await db
+    const [post] = await db
       .insert(posts)
       .values({
         title,
@@ -41,13 +45,39 @@ export async function createPostAction(
       })
       .returning();
 
-    revalidatePath("/");
-    return { success: true, data: post[0] };
+    revalidatePostsRoutes();
+    return { success: true, data: post };
   } catch (error) {
     return {
       success: false,
       message: (error as Error).message,
     };
+  }
+}
+
+export async function updatePostAction(
+  formData: FormData,
+): Promise<FormActionResponse<Post>> {
+  const id = formData.get("id")?.toString();
+  if (!id) return { success: false, message: "Need id to update post" };
+
+  const title = formData.get("title")?.toString();
+  const content = formData.get("content")?.toString();
+
+  try {
+    const [post] = await db
+      .update(posts)
+      .set({
+        title,
+        content,
+      })
+      .where(eq(posts.id, id))
+      .returning();
+
+    revalidatePostsRoutes();
+    return { success: true, data: post };
+  } catch (error) {
+    return { success: false, message: (error as Error).message };
   }
 }
 
