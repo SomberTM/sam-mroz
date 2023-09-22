@@ -59,6 +59,9 @@ dependencies:
   '@types/react-dom':
     specifier: 18.2.7
     version: 18.2.7
+  '@types/uuid':
+    specifier: ^9.0.4
+    version: 9.0.4
   '@vercel/postgres':
     specifier: ^0.4.1
     version: 0.4.1
@@ -133,9 +136,6 @@ dependencies:
     version: 9.0.1
 
 devDependencies:
-  '@types/uuid':
-    specifier: ^9.0.4
-    version: 9.0.4
   prettier:
     specifier: ^3.0.3
     version: 3.0.3
@@ -2512,7 +2512,7 @@ packages:
 
   /@types/uuid@9.0.4:
     resolution: {integrity: sha512-zAuJWQflfx6dYJM62vna+Sn5aeSWhh3OB+wfUEACNcqUSc0AGc5JKl+ycL1vrH7frGTXhJchYjE1Hak8L819dA==}
-    dev: true
+    dev: false
 
   /@typescript-eslint/parser@6.7.0(eslint@8.49.0)(typescript@5.2.2):
     resolution: {integrity: sha512-jZKYwqNpNm5kzPVP5z1JXAuxjtl2uG+5NpaMocFPTNC2EdYIgbXIPImObOkhbONxtFTTdoZstLZefbaK+wXZng==}
