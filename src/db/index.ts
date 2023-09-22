@@ -10,4 +10,7 @@ const client = new Client({
 });
 
 client.connect();
-export default drizzle(client, { schema, logger: true });
+export default drizzle(client, {
+  schema,
+  logger: process.env.NODE_ENV === "development",
+});
