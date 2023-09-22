@@ -6,6 +6,7 @@ import {
   S3Client,
 } from "@aws-sdk/client-s3";
 import sharp from "sharp";
+import uuid from "uuid";
 
 export interface UploadFileResultSuccess<T> {
   success: true;
@@ -75,9 +76,10 @@ export async function uploadImage(
 
   const resized = await resizer.resize(buffer);
 
+  const key = uuid.v4();
   const params: PutObjectCommandInput = {
     Bucket: process.env.AWS_BUCKET_NAME!,
-    Key: file.name,
+    Key: key,
     Body: resized.data,
     ContentType: resized.mime,
   };
@@ -90,7 +92,7 @@ export async function uploadImage(
       .insert(images)
       .values({
         bucket: params.Bucket!,
-        fileName: file.name,
+        fileName: key,
         url: objectUrl,
         width: resized.dimensions.width,
         height: resized.dimensions.height,
