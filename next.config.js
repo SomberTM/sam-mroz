@@ -12,8 +12,8 @@ const nextConfig = {
       {
         protocol: "https",
         port: "",
-        hostname: "s3.amazonaws.com",
-        pathname: "/sam-mroz/**",
+        hostname: "sam-mroz.s3.amazonaws.com",
+        pathname: "/**",
       },
     ],
   },

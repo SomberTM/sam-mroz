@@ -10,4 +10,4 @@ const client = new Client({
 });
 
 client.connect();
-export default drizzle(client, { schema });
+export default drizzle(client, { schema, logger: true });

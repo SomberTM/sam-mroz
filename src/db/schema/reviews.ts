@@ -8,7 +8,7 @@ import {
 import { relations } from "drizzle-orm";
 import { genres } from ".";
 
-export const reviews = pgTable("reviews", {
+export const reviews = pgTable("review", {
   id: uuid("id").primaryKey().defaultRandom(),
   title: text("title").notNull(),
   body: text("body").notNull(),
@@ -32,7 +32,7 @@ export const reviewsToGenres = pgTable(
   },
   (table) => ({
     pk: primaryKey(table.reviewId, table.genreId),
-  })
+  }),
 );
 
 export const reviewsToGenresRelations = relations(
@@ -46,7 +46,7 @@ export const reviewsToGenresRelations = relations(
       fields: [reviewsToGenres.genreId],
       references: [genres.id],
     }),
-  })
+  }),
 );
 
 export type Review = typeof reviews.$inferSelect;

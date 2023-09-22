@@ -92,9 +92,6 @@ export function StoryForm() {
           name="source"
           id="source"
         />
-      </div>
-      <Separator />
-      <div className="flex flex-col gap-2">
         <Label htmlFor="sourceTitle">Source Title</Label>
         <Input placeholder="The DePaulia" name="sourceTitle" id="sourceTitle" />
       </div>

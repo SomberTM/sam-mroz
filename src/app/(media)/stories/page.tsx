@@ -1,15 +1,38 @@
 import { Cinzel } from "@/components/cinzel";
 import db from "@/db";
-import { Story, User, stories, users } from "@/db/schema";
+import {
+  Image as DbImage,
+  Story,
+  User,
+  images,
+  stories,
+  users,
+} from "@/db/schema";
 import { desc, eq } from "drizzle-orm";
 import Image from "next/image";
 import Link from "next/link";
 
-function Story({ story, author }: { story: Story; author: User }) {
+function Story({
+  story,
+  author,
+  image,
+}: {
+  story: Story;
+  author: User;
+  image: DbImage | null;
+}) {
   return (
     <div className="w-96 flex gap-16 my-16 md:w-5/6 mx-auto">
       {story.imageUrl && (
         <Image width={900} height={700} src={story.imageUrl} alt="" />
+      )}
+      {image && (
+        <Image
+          width={image.width}
+          height={image.height}
+          alt={image.alt}
+          src={image.url}
+        />
       )}
       <div className="flex flex-col justify-center gap-4">
         {story.source && story.sourceTitle && (
@@ -35,12 +58,13 @@ export default async function Stories() {
     .select()
     .from(stories)
     .leftJoin(users, eq(stories.authorId, users.id))
+    .leftJoin(images, eq(stories.imageId, images.id))
     .orderBy(desc(stories.createdAt));
 
   return (
     <div className="flex flex-col grow gap-16">
-      {items.map(({ stories: story, user: author }) => (
-        <Story key={story.id} story={story} author={author!} />
+      {items.map(({ story, user: author, image }) => (
+        <Story key={story.id} story={story} author={author!} image={image} />
       ))}
     </div>
   );
