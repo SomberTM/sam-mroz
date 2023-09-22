@@ -14,7 +14,6 @@ import React from "react";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { updatePostAction } from "@/db/actions/posts";
-import { Toaster } from "./ui/toaster";
 import { useToast } from "./ui/use-toast";
 
 dayjs.extend(relativeTime);
@@ -65,7 +64,6 @@ export function Post({
 
   return (
     <Card className={cn("flex flex-col gap-1 p-4 relative", className)}>
-      {canCurrentUserEdit && <Toaster />}
       {/* <Container {...containerProps}> */}
       <div className="flex justify-between items-center">
         <h1 className="flex items-center gap-1">

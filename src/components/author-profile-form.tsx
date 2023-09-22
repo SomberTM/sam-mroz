@@ -6,7 +6,6 @@ import { Separator } from "./ui/separator";
 import { SubmitButton } from "./submit-button";
 import { useRef } from "react";
 import { useToast } from "./ui/use-toast";
-import { Toaster } from "./ui/toaster";
 import { AuthorProfile } from "@/db/schema";
 import { updateAuthorProfile } from "@/db/actions/profile";
 
@@ -40,7 +39,6 @@ export function AuthorProfileForm({ profile }: { profile: AuthorProfile }) {
       action={onSubmit}
       ref={formRef}
     >
-      <Toaster />
       <div className="flex flex-col gap-2">
         <Label htmlFor="name">Name</Label>
         <Input

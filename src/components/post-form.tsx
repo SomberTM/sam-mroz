@@ -8,7 +8,6 @@ import { Textarea } from "./ui/textarea";
 import { SubmitButton } from "./submit-button";
 import { useRef } from "react";
 import { useToast } from "./ui/use-toast";
-import { Toaster } from "./ui/toaster";
 import { ToastAction } from "./ui/toast";
 import Link from "next/link";
 
@@ -53,7 +52,6 @@ export function PostForm() {
       action={onSubmit}
       ref={formRef}
     >
-      <Toaster />
       <div className="flex flex-col gap-2">
         <Label htmlFor="title">Title</Label>
         <Input required type="text" name="title" id="title" />

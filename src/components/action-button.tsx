@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { Button } from "./ui/button";
 import { Toast, useToast } from "./ui/use-toast";
-import { Toaster } from "./ui/toaster";
 
 export function ActionButton({
   action,
@@ -19,20 +18,17 @@ export function ActionButton({
   const { toast } = useToast();
 
   return (
-    <>
-      {toastProps && <Toaster />}
-      <Button
-        {...props}
-        disabled={isLoading}
-        onClick={async () => {
-          setIsLoading(true);
-          await action();
-          setIsLoading(false);
-          if (toastProps) toast(toastProps);
-        }}
-      >
-        {children}
-      </Button>
-    </>
+    <Button
+      {...props}
+      disabled={isLoading}
+      onClick={async () => {
+        setIsLoading(true);
+        await action();
+        setIsLoading(false);
+        if (toastProps) toast(toastProps);
+      }}
+    >
+      {children}
+    </Button>
   );
 }

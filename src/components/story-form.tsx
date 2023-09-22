@@ -9,7 +9,6 @@ import { createStoryAction } from "@/db/actions/stories";
 import { useToast } from "./ui/use-toast";
 import { useRef } from "react";
 import { ToastAction } from "./ui/toast";
-import { Toaster } from "./ui/toaster";
 import Link from "next/link";
 import { AttachImage } from "./attach-file";
 
@@ -54,7 +53,6 @@ export function StoryForm() {
       ref={formRef}
       action={onSubmit}
     >
-      <Toaster />
       <div className="flex flex-col gap-2">
         <Label htmlFor="title">Title</Label>
         <Input
