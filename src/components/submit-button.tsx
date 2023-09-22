@@ -6,11 +6,14 @@ import { Button } from "./ui/button";
 export function SubmitButton({
   value,
   loadingValue,
+  isLoading = undefined,
 }: {
-  value: string;
-  loadingValue: string;
+  value: React.ReactNode;
+  loadingValue: React.ReactNode;
+  isLoading?: boolean;
 }) {
   const { pending } = useFormStatus();
+  const loading = isLoading !== undefined ? isLoading : pending;
 
-  return <Button disabled={pending}>{pending ? loadingValue : value}</Button>;
+  return <Button disabled={loading}>{pending ? loadingValue : value}</Button>;
 }
