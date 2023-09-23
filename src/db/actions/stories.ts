@@ -23,7 +23,7 @@ export async function createStoryAction(
 
   if (!title) return { success: false, message: `Missing story title` };
   if (!body) return { success: false, message: `Missing story body` };
-  if (image && !alt)
+  if (!!image && (!alt || alt === ""))
     return { success: false, message: `Alt text required for image` };
 
   const user = await getCurrentUser();

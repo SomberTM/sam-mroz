@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { Input, InputProps } from "./ui/input";
-import Image from "next/image";
 import { Label } from "./ui/label";
 
 export interface ImageAttachment {
@@ -15,12 +14,6 @@ export interface ImageMeta {
   height: number;
   alt: string;
 }
-
-const defaultImageMeta: ImageMeta = {
-  width: 1200,
-  height: 1000,
-  alt: "An image",
-};
 
 export function AttachImage(
   props: InputProps & React.RefAttributes<HTMLInputElement>,
@@ -58,6 +51,7 @@ export function AttachImage(
           <Input
             id="alt"
             name="alt"
+            required
             placeholder="Meaningful description of the image for those using screen readers"
           />
         </div>

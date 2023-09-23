@@ -7,14 +7,24 @@ import { Textarea } from "./ui/textarea";
 import { SubmitButton } from "./submit-button";
 import { createStoryAction } from "@/db/actions/stories";
 import { useToast } from "./ui/use-toast";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { ToastAction } from "./ui/toast";
 import Link from "next/link";
 import { AttachImage } from "./attach-file";
+import { Switch } from "./ui/switch";
+
+const MAX_SYNOPSIS_CHARACTERS = 512;
+const MAX_BODY_CHARACTERS = 8192;
 
 export function StoryForm() {
   const { toast } = useToast();
   const formRef = useRef<HTMLFormElement>(null);
+  const [isImageLink, setIsImageLink] = useState(true);
+  const [synopsisCharsRemaining, setSynopsisCharsRemaining] = useState(
+    MAX_SYNOPSIS_CHARACTERS,
+  );
+  const [bodyCharsRemaining, setBodyCharsRemaining] =
+    useState(MAX_BODY_CHARACTERS);
 
   async function onSubmit(formData: FormData) {
     const result = await createStoryAction(formData);
@@ -64,24 +74,44 @@ export function StoryForm() {
         />
       </div>
       <Separator />
-      <div className="flex flex-col gap-2">
+      <div className="relative flex flex-col gap-2">
         <Label htmlFor="synopsis">Synopsis</Label>
-        <Textarea name="synopsis" id="synopsis" />
-      </div>
-      <Separator />
-      <div className="flex flex-col gap-2">
-        <Label htmlFor="body">Body</Label>
-        <Textarea name="body" id="body" />
-      </div>
-      <Separator />
-      <div className="flex flex-col gap-2">
-        <Label htmlFor="imageUrl">Image URL</Label>
-        <Input
-          placeholder="https://depauliaonline.com/wp-content/uploads/2023/09/Barbenheimer-1200x1000.jpg"
-          name="imageUrl"
-          id="imageUrl"
+        <Textarea
+          maxLength={MAX_SYNOPSIS_CHARACTERS}
+          onChange={(event) =>
+            setSynopsisCharsRemaining(
+              MAX_SYNOPSIS_CHARACTERS - event.currentTarget.value.length,
+            )
+          }
+          className="h-32"
+          name="synopsis"
+          id="synopsis"
         />
+        <span className="absolute z-10 bottom-4 right-4 text-muted-foreground text-xs select-none">
+          {synopsisCharsRemaining} characters remaining
+        </span>
       </div>
+      <Separator />
+      <div className="relative flex flex-col gap-2">
+        <Label htmlFor="body">Body</Label>
+        <Textarea
+          maxLength={MAX_BODY_CHARACTERS}
+          onChange={(event) =>
+            setBodyCharsRemaining(
+              MAX_BODY_CHARACTERS - event.currentTarget.value.length,
+            )
+          }
+          required
+          className="h-64"
+          name="body"
+          id="body"
+        />
+        <span className="absolute z-10 bottom-4 right-4 text-muted-foreground text-xs select-none">
+          {bodyCharsRemaining} characters remaining
+        </span>
+      </div>
+      <Separator />
+      <div className="flex flex-col gap-2"></div>
       <Separator />
       <div className="flex flex-col gap-2">
         <Label htmlFor="source">Source Link</Label>
@@ -95,8 +125,26 @@ export function StoryForm() {
       </div>
       <Separator />
       <div className="flex flex-col gap-2">
-        <Label htmlFor="storyImage">Story Image</Label>
-        <AttachImage name="image" id="storyImage" />
+        <Switch
+          checked={isImageLink}
+          onCheckedChange={() => setIsImageLink((value) => !value)}
+        />
+        {isImageLink && (
+          <>
+            <Label htmlFor="imageUrl">Image URL</Label>
+            <Input
+              placeholder="https://depauliaonline.com/wp-content/uploads/2023/09/Barbenheimer-1200x1000.jpg"
+              name="imageUrl"
+              id="imageUrl"
+            />
+          </>
+        )}
+        {!isImageLink && (
+          <>
+            <Label htmlFor="storyImage">Story Image</Label>
+            <AttachImage name="image" id="storyImage" />
+          </>
+        )}
       </div>
       <Separator />
       <SubmitButton value="Submit" loadingValue="Submitting..." />

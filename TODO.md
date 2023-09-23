@@ -1,0 +1,2 @@
+- Resized image viewer in forms
+- Add published column to posts, reviews, stories
