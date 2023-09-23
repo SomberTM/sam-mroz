@@ -57,77 +57,77 @@ export function Post({
     }
   }
 
-  // const Container = canCurrentUserEdit ? "form" : React.Fragment;
-  // const containerProps = canCurrentUserEdit ? { action: onSubmit } : {};
+  const Container = canCurrentUserEdit ? "form" : React.Fragment;
+  const containerProps = canCurrentUserEdit ? { action: onSubmit } : {};
   const hasBeenEdited =
     post.createdAt.getMilliseconds() !== post.modifiedAt.getMilliseconds();
 
   return (
     <Card className={cn("flex flex-col gap-1 p-4 relative", className)}>
-      {/* <Container {...containerProps}> */}
-      <div className="flex justify-between items-center">
-        <h1 className="flex items-center gap-1">
-          {!isEditing && <span className="font-bold">{post.title}</span>}
-          {isEditing && <Input name="title" defaultValue={post.title} />}
-          <span className="text-muted-foreground">・</span>
-          <span className="text-muted-foreground">
-            {profile?.name ?? author.name}
-          </span>
-        </h1>
-        <div className="flex gap-2">
-          {/* {canCurrentUserEdit && !isEditing && (
-            <Button
-              className="w-6 h-6 p-1"
-              size="sm"
-              variant="ghost"
-              key="edit"
-              onClick={(e) => {
-                e.preventDefault();
-                setIsEditing(true);
-              }}
-            >
-              <PencilIcon />
-            </Button>
-          )}
-          {canCurrentUserEdit && isEditing && (
-            <Button
-              className="w-6 h-6 p-1"
-              size="sm"
-              variant="ghost"
-              onClick={(e) => {
-                e.preventDefault();
-                setIsEditing(false);
-              }}
-            >
-              <XIcon />
-            </Button>
-          )}
-          {canCurrentUserEdit && isEditing && (
-            <Button
-              className="w-6 h-6 p-1"
-              size="sm"
-              type="submit"
-              key="save"
-              disabled={pending}
-            >
-              <CheckIcon />
-            </Button>
-          )} */}
+      <Container {...containerProps}>
+        <div className="flex justify-between items-center">
+          <h1 className="flex items-center gap-1">
+            {!isEditing && <span className="font-bold">{post.title}</span>}
+            {isEditing && <Input name="title" defaultValue={post.title} />}
+            <span className="text-muted-foreground">・</span>
+            <span className="text-muted-foreground">
+              {profile?.name ?? author.name}
+            </span>
+          </h1>
+          <div className="flex gap-2">
+            {canCurrentUserEdit && !isEditing && (
+              <Button
+                className="w-6 h-6 p-1"
+                size="sm"
+                variant="ghost"
+                key="edit"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setIsEditing(true);
+                }}
+              >
+                <PencilIcon />
+              </Button>
+            )}
+            {canCurrentUserEdit && isEditing && (
+              <Button
+                className="w-6 h-6 p-1"
+                size="sm"
+                variant="ghost"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setIsEditing(false);
+                }}
+              >
+                <XIcon />
+              </Button>
+            )}
+            {canCurrentUserEdit && isEditing && (
+              <Button
+                className="w-6 h-6 p-1"
+                size="sm"
+                type="submit"
+                key="save"
+                disabled={pending}
+              >
+                <CheckIcon />
+              </Button>
+            )}
+          </div>
         </div>
-      </div>
-      {!isEditing && <p>{post.content}</p>}
-      {isEditing && (
-        <Textarea
-          name="content"
-          defaultValue={post.content}
-          className="aspect-square min-h-fit"
-        />
-      )}
-      <span className="text-muted-foreground text-sm">
-        {hasBeenEdited && `Edited・`}
-        {relative}
-      </span>
-      {/* </Container> */}
+        {!isEditing && <p>{post.content}</p>}
+        {isEditing && (
+          <Textarea
+            name="content"
+            defaultValue={post.content}
+            className="aspect-square min-h-fit"
+          />
+        )}
+        <span className="text-muted-foreground text-sm">
+          {hasBeenEdited && `Edited・`}
+          {relative}
+        </span>
+      </Container>
     </Card>
   );
 }
