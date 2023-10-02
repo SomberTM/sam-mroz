@@ -43,11 +43,11 @@ function TemporaryPrimaryPost() {
         caption={`Protestors gathered in front of the Daley Plaza in Chicago's Loop district, conversing in front of the public art piece, "The Chicago Picasso".  Photo by Sam Mroz`}
       />
       <CaptionedImage
-        src="/no_garda_world.jpg"
+        src="/no_garda_world.JPG"
         caption={`Chicago citizen, Kathy Powers, helped in leading the protest, holding up a sign that read "#No Gardaworld in Chicago". Photo by Sam Mroz`}
       />
       <CaptionedImage
-        src="/housing_for_all.jpg"
+        src="/housing_for_all.JPG"
         caption="As Chicago citizens continue to arrive in support of the cause, present civilians wait patiently with signs made for the protest. Photo by Sam Mroz"
       />
     </Card>
