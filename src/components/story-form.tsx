@@ -34,7 +34,9 @@ export function StoryForm() {
         description: `Created a new story titled "${result.data.title}"`,
         action: (
           <ToastAction altText="Go to newly created story">
-            <Link href={`/stories/${result.data.title}`}>Go to story</Link>
+            <Link href={`/stories/${result.data.normalizedTitle}`}>
+              Go to story
+            </Link>
           </ToastAction>
         ),
         duration: 5000,
