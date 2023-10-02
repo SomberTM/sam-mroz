@@ -19,7 +19,7 @@ function TemporaryPrimaryPost() {
       <h1 className="text-lg font-bold">
         &quot;Civilians gather in front of the Daley Plaza in Chicago&apos;s
         Loop district to protest an approved tent refugee camp by Chicago Mayor,
-        Brendan Johnson&quot;
+        Brandon Johnson&quot;
       </h1>
       <p>
         On September 30th, Chicago citizens gathered in front of the Daley Plaza
@@ -27,12 +27,15 @@ function TemporaryPrimaryPost() {
         for the migrants coming from Texas. Protestors disapproved of the tent
         action&apos;s approval, citing the act as putting vulnerable people in
         glorified tents, with an incoming Chicago Winter likely to harm said
-        migrants. The protesters labeled the action as a human rights violation,
-        enforcing thoughts that the corporation Gardaworld was a corrupt
-        organization. Demands for a contract cancellation with Gardaworld,
-        adequate safe housing to incoming migrants and unhoused people, and an
-        investment in long-term solutions to ensure every Chicago is housed,
-        were made by those in attendance.
+        migrants.
+      </p>
+      <p>
+        The protesters labeled the action as a human rights violation, enforcing
+        thoughts that the corporation Gardaworld was a corrupt organization.
+        Demands for a contract cancellation with Gardaworld, adequate safe
+        housing to incoming migrants and unhoused people, and an investment in
+        long-term solutions to ensure every Chicago is housed, were made by
+        those in attendance.
       </p>
       <CaptionedImage
         src="/sign_making.jpg"
