@@ -11,5 +11,8 @@ export const normalizedTitle = customType<{ data: string; driverData: string }>(
         .replaceAll(" ", "-")
         .toLowerCase();
     },
+    fromDriver(value) {
+      return value;
+    },
   },
 );
