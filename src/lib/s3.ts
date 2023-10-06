@@ -46,6 +46,17 @@ const client = new S3Client({
   region,
 });
 
+// 16 / 9
+// = 4 / 3
+// resize to closest multiple of that aspect ratio
+// newWidth = width - width % 4
+// newHeight = height - height % 3
+
+// width * k, height * k
+
+// width = 1200
+// height = 900
+
 export const storyImageResizer: ImageResizer = {
   resize(buffer: Buffer | ArrayBuffer) {
     const data = sharp(buffer).resize(1200, 1000);
