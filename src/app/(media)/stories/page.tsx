@@ -17,12 +17,10 @@ function Story({
   story,
   author,
   image,
-  link,
 }: {
   story: Story;
   author: User;
   image: DbImage | null;
-  link: string;
 }) {
   return (
     <div className="w-96 flex gap-16 my-16 md:w-5/6 mx-auto">
@@ -44,12 +42,12 @@ function Story({
             </Link>
           </Cinzel>
         )}
-        <h1 className="text-3xl font-bold"><a href={link}>{story.title}</a></h1>
+        <h1 className="text-3xl font-bold"><Link href={`/stories/${story.normalizedTitle}`}>{story.title}</Link></h1>
         <p className="text-xl">{story.synopsis}</p>
           <Button className="text-xl justify-center">
-            <a href={link}>
+            <Link href={`/stories/${story.normalizedTitle}`}>
               Click Here For Full Story
-            </a>
+            </Link>
           </Button>
       </div>
     </div>
@@ -65,9 +63,14 @@ export default async function Stories() {
     .orderBy(desc(stories.createdAt));
 
   return (
-    <div className="flex flex-col grow gap-16">
+    <div className="flex flex-col grow gap-12">
+      <Cinzel>
+      <h1 className="text-6xl font-bold pt-16 text-center">
+        Stories
+      </h1>
+      </Cinzel>
       {items.map(({ story, user: author, image }) => (
-        <Story key={story.id} story={story} author={author!} image={image} link={"/stories/" + story.title}/>
+        <Story key={story.id} story={story} author={author!} image={image}/>
       ))}
     </div>
   );
