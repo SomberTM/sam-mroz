@@ -1,10 +1,12 @@
 import { relations } from "drizzle-orm";
 import { pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
 import { images, users } from ".";
+import { normalizedTitle } from "../custom-columns";
 
 export const stories = pgTable("story", {
   id: uuid("id").primaryKey().defaultRandom(),
   title: text("title").unique().notNull(),
+  normalizedTitle: normalizedTitle("normalized_title").unique().notNull(),
   synopsis: text("synopsis"),
   body: text("body").notNull(),
   imageUrl: text("image_url"),

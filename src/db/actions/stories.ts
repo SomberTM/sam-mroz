@@ -40,6 +40,7 @@ export async function createStoryAction(
       .insert(stories)
       .values({
         title,
+        normalizedTitle: title,
         body,
         synopsis,
         imageUrl,
