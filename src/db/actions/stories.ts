@@ -5,7 +5,11 @@ import { revalidatePath } from "next/cache";
 import db from "..";
 import { Image, Story, stories } from "../schema";
 import { FormActionResponse } from ".";
-import { UploadFileResult, storyImageResizer, uploadImage } from "@/lib/s3";
+import {
+  UploadFileResult,
+  fourThreeAspectResizer,
+  uploadImage,
+} from "@/lib/s3";
 
 export async function createStoryAction(
   formData: FormData,
@@ -32,7 +36,7 @@ export async function createStoryAction(
   try {
     let uploadResult: UploadFileResult<Image> | undefined;
     if (image && alt) {
-      uploadResult = await uploadImage(image, alt, storyImageResizer);
+      uploadResult = await uploadImage(image, alt, fourThreeAspectResizer);
       if (!uploadResult.success) return uploadResult;
     }
 

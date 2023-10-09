@@ -63,9 +63,9 @@ export async function PostsList({ page }: { page?: number }) {
 
   return (
     <ul className="flex flex-col justify-center gap-2 w-full">
-      <li>
+      {/* <li>
         <TemporaryPrimaryPost />
-      </li>
+      </li> */}
       {results.map(
         ({ user: author, post, profile }) =>
           author && (

@@ -26,6 +26,7 @@ export function AttachImage(
         <Input
           {...props}
           type="file"
+          accept="image/*"
           onChange={(event) => {
             if (image) URL.revokeObjectURL(image.url);
 

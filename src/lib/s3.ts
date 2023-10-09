@@ -46,14 +46,14 @@ const client = new S3Client({
   region,
 });
 
-export const storyImageResizer: ImageResizer = {
+export const fourThreeAspectResizer: ImageResizer = {
   resize(buffer: Buffer | ArrayBuffer) {
-    const data = sharp(buffer).resize(1200, 1000);
+    const data = sharp(buffer).resize(800, 600);
     return {
       data,
       dimensions: {
-        width: 1200,
-        height: 1000,
+        width: 800,
+        height: 600,
       },
     };
   },
@@ -62,7 +62,7 @@ export const storyImageResizer: ImageResizer = {
 export async function uploadImage(
   file: File,
   alt: string,
-  resizer: ImageResizer,
+  resizer: ImageResizer = fourThreeAspectResizer,
 ): Promise<UploadFileResult<Image>> {
   const resized = resizer.resize(await file.arrayBuffer());
   const webp = await resized.data.webp().toBuffer();

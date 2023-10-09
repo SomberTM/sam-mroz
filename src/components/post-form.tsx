@@ -4,18 +4,20 @@ import { createPostAction } from "@/db/actions/posts";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Separator } from "./ui/separator";
-import { Textarea } from "./ui/textarea";
 import { SubmitButton } from "./submit-button";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useToast } from "./ui/use-toast";
 import { ToastAction } from "./ui/toast";
 import Link from "next/link";
+import { RichTextEditor } from "./rich-text-editor";
 
 export function PostForm() {
   const { toast } = useToast();
+  const [content, setContent] = useState("");
   const formRef = useRef<HTMLFormElement>(null);
 
   async function onSubmit(formData: FormData) {
+    formData.set("content", content);
     const result = await createPostAction(formData);
     if (result.success) {
       toast({
@@ -59,7 +61,7 @@ export function PostForm() {
       <Separator />
       <div className="flex flex-col gap-2">
         <Label htmlFor="content">Content</Label>
-        <Textarea required name="content" id="content" />
+        <RichTextEditor id="content" value={content} onChange={setContent} />
       </div>
       <Separator />
       <SubmitButton value="Post" loadingValue="Posting..." />

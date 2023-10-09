@@ -15,6 +15,7 @@ import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { updatePostAction } from "@/db/actions/posts";
 import { useToast } from "./ui/use-toast";
+import { RichTextEditor } from "./rich-text-editor";
 
 dayjs.extend(relativeTime);
 dayjs.extend(utc);
@@ -35,6 +36,7 @@ export function Post({
   const [isEditing, setIsEditing] = useState(false);
   const { pending } = useFormStatus();
   const { toast } = useToast();
+  const [content, setContent] = useState(post.content);
 
   const relative = dayjs().to(
     dayjs.utc(post.modifiedAt.toUTCString().substring(0, 23)).local(),
@@ -42,6 +44,7 @@ export function Post({
 
   async function onSubmit(formData: FormData) {
     formData.set("id", post.id);
+    formData.set("content", content);
     const result = await updatePostAction(formData);
     if (result.success) {
       toast({
@@ -67,7 +70,9 @@ export function Post({
       <Container {...containerProps}>
         <div className="flex justify-between items-center">
           <h1 className="flex items-center gap-1">
-            {!isEditing && <span className="font-bold">{post.title}</span>}
+            {!isEditing && (
+              <span className="font-bold text-lg">{post.title}</span>
+            )}
             {isEditing && <Input name="title" defaultValue={post.title} />}
             <span className="text-muted-foreground">・</span>
             <span className="text-muted-foreground">
@@ -115,12 +120,18 @@ export function Post({
             )}
           </div>
         </div>
-        {!isEditing && <p>{post.content}</p>}
+        {!isEditing && (
+          <div
+            dangerouslySetInnerHTML={{
+              __html: post.content,
+            }}
+          ></div>
+        )}
         {isEditing && (
-          <Textarea
-            name="content"
-            defaultValue={post.content}
-            className="aspect-square min-h-fit"
+          <RichTextEditor
+            className="py-2"
+            value={content}
+            onChange={setContent}
           />
         )}
         <span className="text-muted-foreground text-sm">
