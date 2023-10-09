@@ -115,7 +115,13 @@ export function Post({
             )}
           </div>
         </div>
-        {!isEditing && <p>{post.content}</p>}
+        {!isEditing && (
+          <div
+            dangerouslySetInnerHTML={{
+              __html: post.content,
+            }}
+          ></div>
+        )}
         {isEditing && (
           <Textarea
             name="content"
