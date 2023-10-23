@@ -175,7 +175,7 @@ export default async function Story() {
         over, these five restaurants offer a broader city experience.
       </p>
       <p>
-        One that prefers authentic dishes over half-hazard chow. With histories
+        One that prefers authentic dishes over haphazard chow. With histories
         known to invite conversations rather than avoid them, who knows what
         talks with arise? No matter the chatter, you can expect a well-cooked
         meal wedged between active discussions, but no promises can be made for
