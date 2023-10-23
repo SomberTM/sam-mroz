@@ -60,13 +60,29 @@ function TemporaryPrimaryPost() {
 export async function PostsList({ page }: { page?: number }) {
   const { results } = await getPagedPosts(page ?? 1);
   const user = await getCurrentUser();
-
+  const newer = results.slice(0, results.length - 1);
+  const older = [results[results.length - 1]];
   return (
     <ul className="flex flex-col justify-center gap-2 w-full">
+      {newer.map(
+        ({ user: author, post, profile }) =>
+          author && (
+            <li key={post.id}>
+              <Post
+                post={post}
+                author={author}
+                profile={profile}
+                canCurrentUserEdit={
+                  !!user && (user.role === "ADMIN" || user.id === author.id)
+                }
+              />
+            </li>
+          ),
+      )}
       <li>
         <TemporaryPrimaryPost />
       </li>
-      {results.map(
+      {older.map(
         ({ user: author, post, profile }) =>
           author && (
             <li key={post.id}>
