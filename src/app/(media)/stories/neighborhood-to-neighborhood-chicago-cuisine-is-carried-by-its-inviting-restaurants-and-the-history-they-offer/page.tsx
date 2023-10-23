@@ -177,7 +177,7 @@ export default async function Story() {
       <p>
         One that prefers authentic dishes over haphazard chow. With histories
         known to invite conversations rather than avoid them, who knows what
-        talks with arise? No matter the chatter, you can expect a well-cooked
+        talks will arise? No matter the chatter, you can expect a well-cooked
         meal wedged between active discussions, but no promises can be made for
         any hugs thrown one&apos;s way.
       </p>
