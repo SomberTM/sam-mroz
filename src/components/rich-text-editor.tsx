@@ -1,30 +1,12 @@
 /* eslint-disable react/display-name */
 "use client";
 
-import dynamic from "next/dynamic";
-const ReactQuill = dynamic(
-  async () => {
-    const { default: RQ } = await import("react-quill");
-
-    RQ.Quill.register("modules/imageUploader", ImageUploader);
-
-    return ({
-      forwardedRef,
-      ...props
-    }: { forwardedRef: any } & React.ComponentProps<typeof RQ>) => (
-      <RQ ref={forwardedRef} {...props} />
-    );
-  },
-  {
-    ssr: false,
-  },
-);
-import "react-quill/dist/quill.snow.css";
+import { Quill } from "./quill";
 
 // @ts-ignore
-import ImageUploader from "quill-image-uploader";
+// import ImageUploader from "quill-image-uploader";
 
-import { useEffect, useRef } from "react";
+// import { useEffect, useRef } from "react";
 
 const formats = [
   "header",
@@ -40,19 +22,9 @@ const formats = [
   "image",
 ];
 
-export function RichTextEditor(props: React.ComponentProps<typeof ReactQuill>) {
-  // const quillRef = useRef<any>(null);
-
-  // useEffect(() => {
-  //   if (quillRef.current) {
-  //     const quill = quillRef.current.getEditor();
-  //     if (quill)
-  //   }
-  // }, []);
-
+export function RichTextEditor() {
   return (
-    <ReactQuill
-      // forwardedRef={quillRef}
+    <Quill
       theme="snow"
       modules={{
         toolbar: {
@@ -69,16 +41,15 @@ export function RichTextEditor(props: React.ComponentProps<typeof ReactQuill>) {
             ["clean"],
           ],
           handlers: {
-            imageUploader: {
-              async upload(file: File) {
-                return "https://sam-mroz.s3.amazonaws.com/c8bf4c96-4a51-4cda-9576-882160d9960b.webp";
-              },
-            },
+            // imageUploader: {
+            //   async upload(file: File) {
+            //     return "https://sam-mroz.s3.amazonaws.com/c8bf4c96-4a51-4cda-9576-882160d9960b.webp";
+            //   },
+            // },
           },
         },
       }}
       formats={formats}
-      {...props}
     />
   );
 }
