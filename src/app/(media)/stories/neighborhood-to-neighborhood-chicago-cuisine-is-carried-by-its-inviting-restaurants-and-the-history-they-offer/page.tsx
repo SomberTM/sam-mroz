@@ -1,25 +1,5 @@
-import Image from "next/image";
-import Link from "next/link";
-
-function CaptionedImage({ src, caption }: { src: string; caption: string }) {
-  return (
-    <div className="flex flex-col gap-1 py-2">
-      <Image src={src} alt={caption} width={800} height={600} />
-      <p className="text-sm text-muted-foreground">{caption}</p>
-    </div>
-  );
-}
-
-function ExternalLink({
-  href,
-  children,
-}: React.PropsWithChildren<{ href: string }>) {
-  return (
-    <Link href={href} target="_blank" className="underline text-blue-600">
-      {children}
-    </Link>
-  );
-}
+import { CaptionedImage } from "@/components/captioned-image";
+import { ExternalLink } from "@/components/external-link";
 
 export default async function Story() {
   return (
